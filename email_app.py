@@ -6,6 +6,7 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from email_utils import send_email
 from input_validation import is_valid_email
+from email_counter import EmailCounter  
 
 class EmailApp:
     def __init__(self, root):
@@ -113,6 +114,9 @@ class EmailApp:
         df = self.read_contacts_from_file()
         if df is None:
             return
+        
+        total_rows = len(df)
+        email_counter = EmailCounter(self.root, total_rows)  # Create an instance of EmailCounter
 
         for index, row in df.iterrows():
             to_address = row["Address to"]
@@ -144,6 +148,9 @@ class EmailApp:
                 continue
 
             try:
+                 # Update the EmailCounter with the current row number
+                email_counter.update_row(index + 1)
+
                 # Send email for each contact row
                 send_email(subject, email_body, to_address, cc=cc_address, bcc=bcc_address)
                 messagebox.showinfo("Success", f"Email sent to: {to_address}")
