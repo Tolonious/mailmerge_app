@@ -14,6 +14,21 @@ class EmailApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Email Composer")
+
+         # To Address input
+        tk.Label(self.root, text="To:").grid(row=2, column=0, padx=5, pady=5)
+        self.to_address_entry = tk.Entry(self.root, width=50)
+        self.to_address_entry.grid(row=2, column=1, columnspan=2, padx=5, pady=5)
+
+        # CC Address input
+        tk.Label(self.root, text="CC:").grid(row=3, column=0, padx=5, pady=5)
+        self.cc_address_entry = tk.Entry(self.root, width=50)
+        self.cc_address_entry.grid(row=3, column=1, columnspan=2, padx=5, pady=5)
+
+        # BCC Address input
+        tk.Label(self.root, text="BCC:").grid(row=4, column=0, padx=5, pady=5)
+        self.bcc_address_entry = tk.Entry(self.root, width=50)
+        self.bcc_address_entry.grid(row=4, column=1, columnspan=2, padx=5, pady=5)
         
         # Variables to store user inputs
         self.html_file_path = tk.StringVar()
