@@ -1,12 +1,8 @@
 import re
 
 def is_valid_email(email):
-    # Split email addresses by ";" if present
-    email_list = email.split(";")
-
-    for email_address in email_list:
-        # Check the validity of each email address
-        if not re.match(r"[^@]+@[^@]+\.[^@]+", email_address):
-            return False
+    # Regular expression to validate email format
+    email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    return re.match(email_pattern, email)
 
     return True
