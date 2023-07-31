@@ -31,7 +31,8 @@ https://github.com/Tolonious/mailmerge_app
 
 6. Fill in the necessary information in the respective fields:
 - HTML Body File: Browse and select an HTML file to use as the email body (optional if Plain Text is selected).
-- Contacts File: Browse and select a CSV, Excel, or Google Sheets file containing recipient information.
+- Contacts File: Browse and select a CSV, Excel, or Google Sheets file containing recipient information. 
+- Header fields: Address to, CC, BCC
 - Email Subject: Enter the subject of the email.
 - Email Body Type: Select either "HTML" or "Plain Text" to specify the type of email body.
 - Email Body: Compose the email body using either HTML tags or plain text (depending on the selected type).
