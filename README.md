@@ -24,7 +24,7 @@ How to Use:
 https://github.com/Tolonious/mailmerge_app
 
 3. Install the required packages with an Administrator command prompt: 
-    pip install -U pandas gspread oauth2client openpyxl pypiwin32
+    pip install -U pandas gspread oauth2client openpyxl pypiwin32 bs4
 
 4. Run the "email_app.py" script to launch the Email Composer application:
 
