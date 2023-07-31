@@ -14,6 +14,21 @@ class EmailApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Email Composer")
+
+         # To Address input
+        tk.Label(self.root, text="To:").grid(row=2, column=0, padx=5, pady=5)
+        self.to_address_entry = tk.Entry(self.root, width=50)
+        self.to_address_entry.grid(row=2, column=1, columnspan=2, padx=5, pady=5)
+
+        # CC Address input
+        tk.Label(self.root, text="CC:").grid(row=3, column=0, padx=5, pady=5)
+        self.cc_address_entry = tk.Entry(self.root, width=50)
+        self.cc_address_entry.grid(row=3, column=1, columnspan=2, padx=5, pady=5)
+
+        # BCC Address input
+        tk.Label(self.root, text="BCC:").grid(row=4, column=0, padx=5, pady=5)
+        self.bcc_address_entry = tk.Entry(self.root, width=50)
+        self.bcc_address_entry.grid(row=4, column=1, columnspan=2, padx=5, pady=5)
         
         # Variables to store user inputs
         self.html_file_path = tk.StringVar()
@@ -52,11 +67,11 @@ class EmailApp:
         self.body_text = tk.Text(self.root, wrap=tk.WORD, width=60, height=10)
         self.body_text.grid(row=4, column=1, columnspan=2, padx=5, pady=5)
 
-        # Preview HTML file button
-        tk.Button(self.root, text="Preview HTML", command=self.preview_html_file).grid(row=5, column=0, columnspan=3, padx=5, pady=10)
+       # Preview HTML file button
+        tk.Button(self.root, text="Preview HTML", command=self.preview_html_file).grid(row=5, column=0, padx=5, pady=10)
 
         # Send email button
-        tk.Button(self.root, text="Send Email", command=self.send_email).grid(row=5, column=0, columnspan=3, padx=5, pady=10)
+        tk.Button(self.root, text="Send Email", command=self.send_email).grid(row=5, column=1, columnspan=2, padx=5, pady=10)
 
         # Error message display
         self.error_text = tk.Text(self.root, wrap=tk.WORD, width=60, height=8)
@@ -136,6 +151,11 @@ class EmailApp:
         else:
             # If Plain Text option is chosen, use the text in the Email body field
             email_body = self.body_text.get(1.0, tk.END).strip()
+        
+        # Split the email addresses by ";" and pass them as a list
+        to_addresses = self.to_address_entry.get().split(";")
+        cc_addresses = self.cc_address_entry.get().split(";")
+        bcc_addresses = self.bcc_address_entry.get().split(";")
 
         df = self.read_contacts_from_file()
         if df is None:
