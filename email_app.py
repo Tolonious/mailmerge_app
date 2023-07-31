@@ -1,4 +1,5 @@
 import os
+import webbrowser
 import pandas as pd
 import tkinter as tk
 from tkinter import filedialog, messagebox
@@ -7,6 +8,7 @@ from oauth2client.service_account import ServiceAccountCredentials
 from email_utils import send_email
 from input_validation import is_valid_email
 from email_counter import EmailCounter  
+from bs4 import BeautifulSoup
 
 class EmailApp:
     def __init__(self, root):
@@ -49,6 +51,9 @@ class EmailApp:
         tk.Label(self.root, text="Email Body:").grid(row=4, column=0, padx=5, pady=5)
         self.body_text = tk.Text(self.root, wrap=tk.WORD, width=60, height=10)
         self.body_text.grid(row=4, column=1, columnspan=2, padx=5, pady=5)
+
+        # Preview HTML file button
+        tk.Button(self.root, text="Preview HTML", command=self.preview_html_file).grid(row=5, column=0, columnspan=3, padx=5, pady=10)
 
         # Send email button
         tk.Button(self.root, text="Send Email", command=self.send_email).grid(row=5, column=0, columnspan=3, padx=5, pady=10)
@@ -100,16 +105,37 @@ class EmailApp:
             return None
 
         return df
+
+    def preview_html_file(self):
+        html_file = self.html_file_path.get()
+        if not os.path.isfile(html_file):
+            self.display_error("The HTML file does not exist.")
+            return
+
+        # Read the HTML file and show the preview in the Email body field
+        with open(html_file, "r") as file:
+            html_content = file.read()
+
+        soup = BeautifulSoup(html_content, "html.parser")
+        self.body_text.delete(1.0, tk.END)
+        self.body_text.insert(tk.END, soup.prettify())
     
     def send_email(self):
         html_file = self.html_file_path.get()
         subject = self.email_subject.get()
         email_body_type = self.email_body_type.get()
-        email_body = self.body_text.get(1.0, tk.END).strip()
 
-        if not os.path.isfile(html_file) and email_body_type == "HTML":
-            self.display_error("The HTML file does not exist.")
-            return
+        if email_body_type == "HTML":
+            # If HTML option is chosen, read the HTML file and use it as the email body
+            if not os.path.isfile(html_file):
+                self.display_error("The HTML file does not exist.")
+                return
+
+            with open(html_file, "r") as file:
+                email_body = file.read()
+        else:
+            # If Plain Text option is chosen, use the text in the Email body field
+            email_body = self.body_text.get(1.0, tk.END).strip()
 
         df = self.read_contacts_from_file()
         if df is None:
