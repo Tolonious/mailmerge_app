@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 
 class EmailCounter(tk.Label):
     def __init__(self, root, total_rows):
